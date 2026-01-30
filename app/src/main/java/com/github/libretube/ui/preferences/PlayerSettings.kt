@@ -5,8 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
+import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.SwitchPreferenceCompat
@@ -14,9 +13,7 @@ import com.github.libretube.R
 import com.github.libretube.compat.PictureInPictureCompat
 import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.helpers.LocaleHelper
-import com.github.libretube.ui.activities.SettingsActivity
 import com.github.libretube.ui.base.BasePreferenceFragment
-import com.github.libretube.ui.fragments.ChannelSpeedManagementFragment
 
 class PlayerSettings : BasePreferenceFragment() {
 
@@ -75,14 +72,7 @@ class PlayerSettings : BasePreferenceFragment() {
 
         val manageChannelSpeeds = findPreference<Preference>("manage_channel_speeds")
         manageChannelSpeeds?.setOnPreferenceClickListener {
-            val settingsActivity = activity as? SettingsActivity
-            if (settingsActivity != null) {
-                settingsActivity.supportFragmentManager.commit {
-                    replace<ChannelSpeedManagementFragment>(R.id.settings)
-                    addToBackStack(null)
-                }
-                settingsActivity.changeTopBarText(getString(R.string.channel_speed_management))
-            }
+            findNavController().navigate(R.id.action_playerSettings_to_channelSpeedManagement)
             true
         }
     }

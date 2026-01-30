@@ -44,6 +44,10 @@
         android:name="com.github.libretube.ui.preferences.PlayerSettings"
         android:label="@string/player" />
     <fragment
+        android:id="@+id/channelSpeedManagement"
+        android:name="com.github.libretube.ui.fragments.ChannelSpeedManagementFragment"
+        android:label="@string/channel_speed_management" />
+    <fragment
         android:id="@+id/sponsorBlockSettings"
         android:name="com.github.libretube.ui.preferences.SponsorBlockSettings"
         android:label="@string/sponsorblock" />
@@ -107,6 +111,14 @@
     <action
         android:id="@+id/action_global_playerSettings"
         app:destination="@id/playerSettings"
+        app:enterAnim="@animator/nav_default_enter_anim"
+        app:exitAnim="@animator/nav_default_exit_anim"
+        app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+        app:popExitAnim="@animator/nav_default_pop_exit_anim" />
+
+    <action
+        android:id="@+id/action_playerSettings_to_channelSpeedManagement"
+        app:destination="@id/channelSpeedManagement"
         app:enterAnim="@animator/nav_default_enter_anim"
         app:exitAnim="@animator/nav_default_exit_anim"
         app:popEnterAnim="@animator/nav_default_pop_enter_anim"
