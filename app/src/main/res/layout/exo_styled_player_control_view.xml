@@ -147,11 +147,27 @@
             app:tint="@android:color/white" />
 
         <ImageButton
+            android:id="@+id/speed_down"
+            style="@style/PlayerControlCenter"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_speed_down"
+            android:visibility="gone"
+            app:tint="@android:color/white" />
+
+        <ImageButton
             android:id="@+id/playPauseBTN"
             style="@style/ExoStyledControls.Button.Center.PlayPause"
             android:layout_marginHorizontal="10dp"
             android:background="?android:selectableItemBackgroundBorderless"
             android:src="@drawable/ic_play"
+            app:tint="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/speed_up"
+            style="@style/PlayerControlCenter"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_speed_up"
+            android:visibility="gone"
             app:tint="@android:color/white" />
 
         <ImageView

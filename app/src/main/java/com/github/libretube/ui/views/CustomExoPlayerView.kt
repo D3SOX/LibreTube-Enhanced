@@ -208,6 +208,7 @@ class CustomExoPlayerView(
         initializeGestureProgress()
 
         initRewindAndForward()
+        initSpeedButtons()
         applyCaptionsStyle()
         initializeAdvancedOptions()
 
@@ -600,6 +601,24 @@ class CustomExoPlayerView(
         }
     }
 
+    private fun initSpeedButtons() {
+        if (!PlayerHelper.speedButtonsEnabled) return
+
+        binding.speedDown.isVisible = !isPlayerLocked
+        binding.speedUp.isVisible = !isPlayerLocked
+
+        binding.speedDown.setOnClickListener {
+            val currentSpeed = player?.playbackParameters?.speed ?: 1.0f
+            val newSpeed = (currentSpeed - SPEED_STEP).coerceIn(MIN_SPEED, MAX_SPEED).round(2)
+            player?.playbackParameters = PlaybackParameters(newSpeed)
+        }
+        binding.speedUp.setOnClickListener {
+            val currentSpeed = player?.playbackParameters?.speed ?: 1.0f
+            val newSpeed = (currentSpeed + SPEED_STEP).coerceIn(MIN_SPEED, MAX_SPEED).round(2)
+            player?.playbackParameters = PlaybackParameters(newSpeed)
+        }
+    }
+
     private fun initializeAdvancedOptions() {
         binding.toggleOptions.setOnClickListener {
             val items = getOptionsMenuItems()
@@ -763,6 +782,11 @@ class CustomExoPlayerView(
             binding.seekButtonForward.forwardBTN.isVisible = isLocked
         }
 
+        if (PlayerHelper.speedButtonsEnabled) {
+            binding.speedDown.isVisible = isLocked
+            binding.speedUp.isVisible = isLocked
+        }
+
         // hide the dimming background overlay if locked
         backgroundBinding.exoControlsBackground.setBackgroundColor(
             if (isLocked) {
@@ -876,6 +900,10 @@ class CustomExoPlayerView(
         gestureViewBinding.volumeProgressBar.let { bar ->
             bar.progress = audioHelper.getVolumeWithScale(bar.max)
         }
+        gestureViewBinding.speedProgressBar.let { bar ->
+            val currentSpeed = player?.playbackParameters?.speed ?: 1.0f
+            bar.progress = ((currentSpeed - MIN_SPEED) / (MAX_SPEED - MIN_SPEED) * bar.max).toInt()
+        }
     }
 
     private fun updateBrightness(distance: Float) {
@@ -923,6 +951,24 @@ class CustomExoPlayerView(
         audioHelper.setVolumeWithScale(bar.progress, bar.max)
 
         gestureViewBinding.volumeTextView.text = "${bar.progress.normalize(0, bar.max, 0, 100)}"
+    }
+
+    private fun updatePlaybackSpeed(distance: Float) {
+        val bar = gestureViewBinding.speedProgressBar
+        gestureViewBinding.speedControlView.apply {
+            if (isGone) {
+                isVisible = true
+                val currentSpeed = player?.playbackParameters?.speed ?: 1.0f
+                bar.progress =
+                    ((currentSpeed - MIN_SPEED) / (MAX_SPEED - MIN_SPEED) * bar.max).toInt()
+            }
+        }
+
+        bar.incrementProgressBy(distance.toInt())
+        val newSpeed =
+            (MIN_SPEED + (bar.progress.toFloat() / bar.max) * (MAX_SPEED - MIN_SPEED)).round(2)
+        player?.playbackParameters = PlaybackParameters(newSpeed)
+        gestureViewBinding.speedTextView.text = "${newSpeed}x"
     }
 
     override fun onPlaybackSpeedClicked() {
@@ -1273,7 +1319,11 @@ class CustomExoPlayerView(
         }
 
         if (isControllerFullyVisible) hideController()
-        updateBrightness(distanceY)
+        if (PlayerHelper.swipeSpeedGesture == "left") {
+            updatePlaybackSpeed(distanceY)
+        } else {
+            updateBrightness(distanceY)
+        }
     }
 
     override fun onSwipeRightScreen(distanceY: Float, positionY: Float) {
@@ -1283,7 +1333,11 @@ class CustomExoPlayerView(
         }
 
         if (isControllerFullyVisible) hideController()
-        updateVolume(distanceY)
+        if (PlayerHelper.swipeSpeedGesture == "right") {
+            updatePlaybackSpeed(distanceY)
+        } else {
+            updateVolume(distanceY)
+        }
     }
 
     override fun onSwipeCenterScreen(distanceY: Float, positionY: Float) {
@@ -1295,6 +1349,7 @@ class CustomExoPlayerView(
         fullscreenGestureAnimationController.onSwipeEnd()
         gestureViewBinding.brightnessControlView.isGone = true
         gestureViewBinding.volumeControlView.isGone = true
+        gestureViewBinding.speedControlView.isGone = true
     }
 
     override fun onZoom() {
@@ -1464,5 +1519,9 @@ class CustomExoPlayerView(
         private const val AUTO_HIDE_CONTROLLER_DELAY = 2000L
         private val LANDSCAPE_MARGIN_HORIZONTAL = 20f.dpToPx()
         private val LANDSCAPE_MARGIN_HORIZONTAL_NONE = 0f.dpToPx()
+
+        private const val MIN_SPEED = 0.25f
+        private const val MAX_SPEED = 4.0f
+        private const val SPEED_STEP = 0.25f
     }
 }

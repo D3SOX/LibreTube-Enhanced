@@ -394,6 +394,18 @@ object PlayerHelper {
             false
         )
 
+    val swipeSpeedGesture: String
+        get() = PreferenceHelper.getString(
+            PreferenceKeys.SWIPE_SPEED_GESTURE,
+            "none"
+        )
+
+    val speedButtonsEnabled: Boolean
+        get() = PreferenceHelper.getBoolean(
+            PreferenceKeys.SPEED_BUTTONS,
+            false
+        )
+
     val pinchGestureEnabled: Boolean
         get() = PreferenceHelper.getBoolean(
             PreferenceKeys.PLAYER_PINCH_CONTROL,

@@ -32,5 +32,12 @@ class PlayerGestureControlsView(
             max = (height * 0.7).toInt()
             progress = oldProgress.normalize(0, oldMax, 0, max)
         }
+
+        binding.speedProgressBar.apply {
+            val oldMax = max
+            val oldProgress = progress
+            max = (height * 0.7).toInt()
+            progress = oldProgress.normalize(0, oldMax, 0, max)
+        }
     }
 }

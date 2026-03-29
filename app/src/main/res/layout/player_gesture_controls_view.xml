@@ -76,4 +76,39 @@
             android:src="@drawable/ic_brightness" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/speedControlView"
+        android:layout_width="42dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/controls_layout_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/speed_textView"
+            style="@style/SwipeControlString"
+            app:autoSizeTextType="uniform" />
+
+        <ProgressBar
+            android:id="@+id/speed_progressBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="7dp"
+            android:layout_height="100dp"
+            android:layout_marginVertical="4dp"
+            android:progressDrawable="@drawable/vertical_progressbar" />
+
+        <ImageView
+            android:id="@+id/speed_imageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/speed"
+            android:src="@drawable/ic_speed" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
