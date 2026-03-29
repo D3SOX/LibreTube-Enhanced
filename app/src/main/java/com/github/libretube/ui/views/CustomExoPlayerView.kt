@@ -2,6 +2,7 @@ package com.github.libretube.ui.views
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.Toast
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Color
@@ -611,12 +612,21 @@ class CustomExoPlayerView(
             val currentSpeed = player?.playbackParameters?.speed ?: 1.0f
             val newSpeed = (currentSpeed - SPEED_STEP).coerceIn(MIN_SPEED, MAX_SPEED).round(2)
             player?.playbackParameters = PlaybackParameters(newSpeed)
+            showSpeedToast(newSpeed)
         }
         binding.speedUp.setOnClickListener {
             val currentSpeed = player?.playbackParameters?.speed ?: 1.0f
             val newSpeed = (currentSpeed + SPEED_STEP).coerceIn(MIN_SPEED, MAX_SPEED).round(2)
             player?.playbackParameters = PlaybackParameters(newSpeed)
+            showSpeedToast(newSpeed)
         }
+    }
+
+    private var speedToast: Toast? = null
+
+    private fun showSpeedToast(speed: Float) {
+        speedToast?.cancel()
+        speedToast = Toast.makeText(context, "${speed}x", Toast.LENGTH_SHORT).also { it.show() }
     }
 
     private fun initializeAdvancedOptions() {
