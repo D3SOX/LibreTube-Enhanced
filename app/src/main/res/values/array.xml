@@ -362,4 +362,16 @@
         <item>pause</item>
         <item>none</item>
     </string-array>
+
+    <string-array name="swipeSpeedGesture">
+        <item>@string/swipe_speed_none</item>
+        <item>@string/swipe_speed_left</item>
+        <item>@string/swipe_speed_right</item>
+    </string-array>
+
+    <string-array name="swipeSpeedGestureValues">
+        <item>none</item>
+        <item>left</item>
+        <item>right</item>
+    </string-array>
 </resources>

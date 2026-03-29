@@ -76,6 +76,8 @@ object PreferenceKeys {
     const val AUTO_FULLSCREEN_SHORTS = "auto_fullscreen_shorts"
     const val PLAY_AUTOMATICALLY = "play_automatically"
     const val FULLSCREEN_GESTURES = "fullscreen_gestures"
+    const val SWIPE_SPEED_GESTURE = "swipe_speed_gesture"
+    const val SPEED_BUTTONS = "speed_buttons"
     const val SHOW_TIME_LEFT = "show_time_left"
     const val ALLOW_PLAYBACK_DURING_CALL = "playback_during_call"
     const val BEHAVIOR_WHEN_MINIMIZED = "behavior_when_minimized"

@@ -11,6 +11,16 @@
             app:key="player_swipe_controls"
             app:title="@string/swipe_controls" />
 
+        <ListPreference
+            android:defaultValue="none"
+            android:dependency="player_swipe_controls"
+            android:icon="@drawable/ic_speed"
+            app:entries="@array/swipeSpeedGesture"
+            app:entryValues="@array/swipeSpeedGestureValues"
+            app:key="swipe_speed_gesture"
+            app:title="@string/swipe_speed_gesture"
+            app:useSimpleSummaryProvider="true" />
+
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_fullscreen"
@@ -50,6 +60,13 @@
             android:summary="@string/skip_buttons_summary"
             app:key="skip_buttons"
             app:title="@string/skip_buttons" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_speed"
+            android:summary="@string/speed_buttons_summary"
+            app:key="speed_buttons"
+            app:title="@string/speed_buttons" />
 
         <ListPreference
             android:defaultValue="pip"

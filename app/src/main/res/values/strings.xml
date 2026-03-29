@@ -595,4 +595,12 @@
     <string name="also_clear_watch_positions">Also clear watch positions</string>
     <string name="import_temp_playlist">Import temporary playlist?</string>
     <string name="import_temp_playlist_summary">Do you want to create a new playlist named \'%1$s\'? The playlist will contain %2$d videos.</string>
+    <string name="swipe_speed_gesture">Swipe to adjust speed</string>
+    <string name="swipe_speed_gesture_summary">Replace a swipe gesture with playback speed control</string>
+    <string name="swipe_speed_none">None</string>
+    <string name="swipe_speed_left">Replace brightness (left side)</string>
+    <string name="swipe_speed_right">Replace volume (right side)</string>
+    <string name="speed_buttons">Speed buttons</string>
+    <string name="speed_buttons_summary">Show playback speed buttons in player controls</string>
+    <string name="speed">Speed</string>
 </resources>
