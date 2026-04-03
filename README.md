@@ -11,6 +11,17 @@ It currently supports the following extra features:
 <img width="350" alt="image" src="assets/readme/channel-playback-speed-manager.png">
 <img width="350" alt="image" src="assets/readme/channel-playback-speed-save-manually.png">
 
+- Playback speed control gestures / player buttons
+  - Swipe to adjust speed replaces one of the player swipe gestures with vertical swipes on the video to change playback speed (configurable in player settings).
+  - Speed buttons show dedicated playback speed controls in the player overlay (optional).
+
+<img height="100" src="assets/readme/playback-speed-control-buttons-setting.png">
+<br>
+<img height="200" src="assets/readme/playback-speed-control-buttons.png">
+<br>
+<img height="350" src="assets/readme/playback-speed-control-gesture-setting.png">
+<img height="350" src="assets/readme/playback-speed-control-gesture.png">
+
 I'm planning to support more niche features / use-cases that got rejected upstream because of maintenance burden. If you have any ideas, please open an issue about it.
 
 # Original README
