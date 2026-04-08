@@ -1379,7 +1379,7 @@ class CustomExoPlayerView(
     }
 
     override fun onLongPress() {
-        if (!PlayerHelper.doubleTapToSeek) return
+        if (!PlayerHelper.longPressFastForward) return
 
         backgroundBinding.fastForwardView.isVisible = true
         val player = player ?: return
