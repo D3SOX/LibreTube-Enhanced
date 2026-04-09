@@ -183,7 +183,8 @@ open class OnlinePlayerService : AbstractPlayerService() {
         exoPlayer?.playbackParameters = PlaybackParameters(playbackSpeed, 1.0f)
 
         exoPlayer?.apply {
-            playWhenReady = PlayerHelper.playAutomatically
+            // automatically start playback when using the audio player
+            playWhenReady = PlayerHelper.playAutomatically || isAudioOnlyPlayer
             prepare()
         }
     }
