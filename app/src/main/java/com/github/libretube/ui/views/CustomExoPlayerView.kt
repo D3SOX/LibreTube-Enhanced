@@ -221,72 +221,8 @@ class CustomExoPlayerView(
         controllerAutoShow = false
 
         binding.fullscreen.setOnClickListener { playerCallback.toggleFullscreen() }
-        // locking the player
-        binding.lockPlayer.setOnClickListener {
-            // change the locked/unlocked icon
-            val icon = if (!isPlayerLocked) R.drawable.ic_locked else R.drawable.ic_unlocked
-            val tooltip = if (!isPlayerLocked) {
-                R.string.tooltip_unlocked
-            } else {
-                R.string.tooltip_locked
-            }
-
-            binding.lockPlayer.setImageResource(icon)
-            TooltipCompat.setTooltipText(binding.lockPlayer, context.getString(tooltip))
-
-            // show/hide all the controls
-            lockPlayer(isPlayerLocked)
-
-            // change locked status
-            isPlayerLocked = !isPlayerLocked
-
-            if (isFullscreen()) toggleSystemBars(!isPlayerLocked)
-        }
 
         resizeMode = resizeModePref
-
-        binding.playPauseBTN.setOnClickListener {
-            player?.togglePlayPauseState()
-        }
-
-        player?.addListener(object : Player.Listener {
-            override fun onEvents(player: Player, events: Player.Events) {
-                super.onEvents(player, events)
-                this@CustomExoPlayerView.onPlaybackEvents(player, events)
-            }
-
-            override fun onIsPlayingChanged(isPlaying: Boolean) {
-                super.onIsPlayingChanged(isPlaying)
-                keepScreenOn = isPlaying
-            }
-
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                super.onPlaybackStateChanged(playbackState)
-
-                if (playbackState == Player.STATE_READY) {
-                    // set default caption language from preferences if caption language is available
-                    val captions = PlayerHelper.getCaptionTracks(player ?: return)
-                    val defaultLangCaption =
-                        captions.firstOrNull { it.language == PlayerHelper.defaultSubtitleCode }
-
-                    updateCurrentSubtitle(defaultLangCaption?.id)
-
-                    // if the video is live, the remaining time is displayed instead of duration
-                    updateDisplayedDurationType()
-                }
-            }
-        })
-
-        player?.let { player ->
-            binding.playPauseBTN.setImageResource(
-                PlayerHelper.getPlayPauseActionIcon(player)
-            )
-        }
-
-        player?.let {
-            binding.exoProgress.setPlayer(it)
-            if (it.isPlaying) keepScreenOn = true
-        }
 
         // prevent the controls from disappearing while scrubbing the time bar
         if (!::seekBarListener.isInitialized) {
@@ -330,8 +266,6 @@ class CustomExoPlayerView(
         binding.position.setOnClickListener {
             if (playerCallback.isVideoLive()) player?.let { it.seekTo(it.duration) }
         }
-
-        updateCurrentPosition()
 
         activity.supportFragmentManager.setFragmentResultListener(
             ChaptersBottomSheet.SEEK_TO_POSITION_REQUEST_KEY,
@@ -423,6 +357,83 @@ class CustomExoPlayerView(
         fullscreenResolution = PlayerHelper.getDefaultResolution(context, true)
         noFullscreenResolution = PlayerHelper.getDefaultResolution(context, false)
         updateResolution(commonPlayerViewModel.isFullscreen.value == true)
+    }
+
+    override fun setPlayer(player: Player?) {
+        // ensure that the below listeners are only
+        // initialized one single time to the same player
+        if (player == this.player) return
+
+        super.setPlayer(player)
+        player?.let {
+            connectViewToPlayer(it)
+        }
+    }
+
+    private fun connectViewToPlayer(player: Player) {
+        binding.playPauseBTN.setOnClickListener {
+            player.togglePlayPauseState()
+        }
+
+        player.addListener(object : Player.Listener {
+            override fun onEvents(player: Player, events: Player.Events) {
+                super.onEvents(player, events)
+                this@CustomExoPlayerView.onPlaybackEvents(player, events)
+            }
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+                keepScreenOn = isPlaying
+            }
+
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                super.onPlaybackStateChanged(playbackState)
+
+                if (playbackState == Player.STATE_READY) {
+                    // set default caption language from preferences if caption language is available
+                    val captions = PlayerHelper.getCaptionTracks(player ?: return)
+                    val defaultLangCaption =
+                        captions.firstOrNull { it.language == PlayerHelper.defaultSubtitleCode }
+
+                    updateCurrentSubtitle(defaultLangCaption?.id)
+
+                    // if the video is live, the remaining time is displayed instead of duration
+                    updateDisplayedDurationType()
+                }
+            }
+        })
+
+        binding.playPauseBTN.setImageResource(
+            PlayerHelper.getPlayPauseActionIcon(player)
+        )
+
+        binding.exoProgress.setPlayer(player)
+
+        if (player.isPlaying) keepScreenOn = true
+
+        // locking the player
+        binding.lockPlayer.setOnClickListener {
+            // change the locked/unlocked icon
+            val icon = if (!isPlayerLocked) R.drawable.ic_locked else R.drawable.ic_unlocked
+            val tooltip = if (!isPlayerLocked) {
+                R.string.tooltip_unlocked
+            } else {
+                R.string.tooltip_locked
+            }
+
+            binding.lockPlayer.setImageResource(icon)
+            TooltipCompat.setTooltipText(binding.lockPlayer, context.getString(tooltip))
+
+            // show/hide all the controls
+            lockPlayer(isPlayerLocked)
+
+            // change locked status
+            isPlayerLocked = !isPlayerLocked
+
+            if (isFullscreen()) toggleSystemBars(!isPlayerLocked)
+        }
+
+        updateCurrentPosition()
     }
 
     private fun syncQueueButtons() {
@@ -1053,10 +1064,10 @@ class CustomExoPlayerView(
                 }?.value ?: context.getString(R.string.none)
             ) { index ->
                 val captionsFormat =
-                    captions.keys.toList().getOrNull(index - 1) ?: return@setSimpleItems
+                    captions.keys.toList().getOrNull(index - 1)
 
-                updateCurrentSubtitle(captionsFormat.id)
-                playerViewModel?.currentCaptionId = captionsFormat.id
+                updateCurrentSubtitle(captionsFormat?.id)
+                playerViewModel?.currentCaptionId = captionsFormat?.id
             }
             .show(supportFragmentManager)
     }
@@ -1277,6 +1288,10 @@ class CustomExoPlayerView(
         }
     }
 
+    /**
+     * Set the current position text (e.g. "10:00 - 17:37"). This does not set the timebar
+     * progress, ExoPlayer handles that automatically.
+     */
     @SuppressLint("SetTextI18n")
     private fun updateCurrentPosition() {
         val position = player?.currentPosition?.div(1000) ?: 0
@@ -1284,7 +1299,9 @@ class CustomExoPlayerView(
         val timeLeft = duration - position
 
         binding.position.text =
-            if (playerCallback.isVideoLive()) context.getString(R.string.live) else DateUtils.formatElapsedTime(position)
+            if (playerCallback.isVideoLive()) context.getString(R.string.live) else DateUtils.formatElapsedTime(
+                position
+            )
         binding.timeLeft.text = "-${DateUtils.formatElapsedTime(timeLeft)}"
 
         runnableHandler.postDelayed(100, UPDATE_POSITION_TOKEN, this::updateCurrentPosition)
