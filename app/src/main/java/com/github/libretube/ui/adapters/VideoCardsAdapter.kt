@@ -8,8 +8,6 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.ListAdapter
-import com.github.libretube.R
-import com.github.libretube.api.MediaServiceRepository
 import com.github.libretube.api.SponsorBlockLabelHelper
 import com.github.libretube.api.obj.StreamItem
 import com.github.libretube.constants.IntentData
@@ -134,15 +132,16 @@ class VideoCardsAdapter(private val columnWidthDp: Float? = null) :
                 if (PlayerHelper.sponsorBlockEnabled) {
                     val sponsor = SponsorBlockLabelHelper.getVideoLabels(videoId)
                     withContext(Dispatchers.Main) {
-                        sponsorBadgeCard.isVisible = sponsor?.segments?.isNotEmpty() == true
-                        sponsorBadgeIcon.setImageDrawable(
-                            when (sponsor?.segments?.firstOrNull()?.category) {
-                                "exclusive_access" -> context.getDrawable(R.drawable.ic_exclusive_content)
-                                "selfpromo" -> context.getDrawable(R.drawable.ic_selfpromo_content)
-                                "sponsor" -> context.getDrawable(R.drawable.ic_paid_content)
-                                else -> null
-                            }
-                        )
+                        val category = sponsor?.segments?.firstOrNull()?.category
+                        sponsorBadgeCard.isVisible = category != null
+                        SponsorBlockLabelHelper.categoryIcon(category)?.let {
+                            sponsorBadgeIcon.setImageDrawable(
+                                context.getDrawable(it)
+                            )
+                        }
+                        sponsorBadgeIcon.tooltipText =
+                            SponsorBlockLabelHelper.categoryLabel(category)
+                                ?.let { context.getString(it) }
                     }
                 }
 

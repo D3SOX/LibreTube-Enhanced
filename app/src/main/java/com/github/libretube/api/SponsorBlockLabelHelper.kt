@@ -1,6 +1,9 @@
 package com.github.libretube.api
 
 import android.util.LruCache
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import com.github.libretube.R
 import com.github.libretube.api.obj.VideoLabelData
 import com.github.libretube.extensions.sha256Sum
 
@@ -29,5 +32,31 @@ object SponsorBlockLabelHelper {
             ).firstOrNull { it.videoID == videoId }
                 .also { cache.put(videoId, it) }
         }.getOrNull()
+    }
+
+    /**
+     * Returns a suitable drawable to display the category.
+     *
+     * If there is no matching icon, `null` is returned.
+     */
+    @DrawableRes
+    fun categoryIcon(category: String?): Int? = when (category) {
+        "exclusive_access" -> R.drawable.ic_exclusive_content
+        "selfpromo" -> R.drawable.ic_selfpromo_content
+        "sponsor" -> R.drawable.ic_paid_content
+        else -> null
+    }
+
+    /**
+     * Returns a suitable label to display the category.
+     *
+     * If there is no matching label, `null` is returned.
+     */
+    @StringRes
+    fun categoryLabel(category: String?): Int? = when (category) {
+        "sponsor" -> R.string.category_sponsor
+        "exclusive_access" -> R.string.category_exclusive_access
+        "selfpromo" -> R.string.category_selfpromo
+        else -> null
     }
 }
