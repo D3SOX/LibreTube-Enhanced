@@ -189,6 +189,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
      */
     private val playerActionReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+            if (!::playerController.isInitialized) return
             val event = intent.serializableExtra<PlayerEvent>(PlayerHelper.CONTROL_TYPE) ?: return
 
             if (PlayerHelper.handlePlayerAction(playerController, event)) return
@@ -420,7 +421,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
 
 
         val playerData = requireArguments().parcelable<PlayerData>(IntentData.playerData)!!
-        videoId = playerData.videoId
+        videoId = playerData.videoId!!
         isOffline = playerData.isOffline
         playlistId = playerData.playlistId
         channelId = playerData.channelId
@@ -533,10 +534,8 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
 
             OfflinePlayerService::class.java to bundleOf(
                 IntentData.videoId to videoId,
-                IntentData.downloadTab to (playerData.downloadTab ?: DownloadTab.VIDEO),
-                IntentData.playlistId to playlistId,
-                IntentData.sortOptions to playerData.downloadSortingOrder,
-                IntentData.shuffle to playerData.shuffle,
+                IntentData.playerData to playerData
+                    .copy(downloadTab = playerData.downloadTab ?: DownloadTab.VIDEO),
                 IntentData.noInternet to isNoInternet
             )
         } else {
