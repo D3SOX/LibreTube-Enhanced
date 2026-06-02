@@ -807,7 +807,7 @@ object PlayerHelper {
      */
     fun getAudioTrackNameFromFormat(
         context: Context,
-        audioLanguageAndRoleFlags: Pair<String?, @C.RoleFlags Int>
+        audioLanguageAndRoleFlags: Pair<String?, @C.RoleFlags Int>,
     ): String {
         val audioLanguage = audioLanguageAndRoleFlags.first
         return context.getString(R.string.audio_track_format)
@@ -816,7 +816,7 @@ object PlayerHelper {
                     context.getString(R.string.unknown_audio_language)
                 } else {
                     Locale.forLanguageTag(audioLanguage)
-                        .getDisplayLanguage(Locale.getDefault())
+                        .getDisplayName(Locale.getDefault())
                         .ifEmpty { context.getString(R.string.unknown_audio_language) }
                 },
                 getDisplayAudioTrackTypeFromFormat(context, audioLanguageAndRoleFlags.second)
