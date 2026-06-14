@@ -523,8 +523,6 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
             onBackPressedCallback.isEnabled = isMiniPlayerVisible != true
         }
 
-        connectToPlayerView()
-
         toggleVideoInfoVisibility(false)
     }
 
@@ -561,6 +559,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
 
             playerController = it
             playerController.addListener(playerListener)
+            connectToPlayerView(playerController)
             updatePlayPauseButton()
 
             if (!startNewSession) {
@@ -803,7 +802,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
             )
         )
 
-        binding.player.player = null
+        binding.player.detachPlayer()
 
         playerController.release()
         killPlayerFragment()
@@ -1074,6 +1073,9 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
         // set the default subtitle if available
         binding.player.updateCurrentSubtitle(viewModel.currentCaptionId)
 
+        // set the default resolution
+        binding.player.setToDefaultResolution()
+
         if (streams.category == Streams.CATEGORY_MUSIC) {
             playerController.setPlaybackSpeed(1f)
         }
@@ -1108,14 +1110,15 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
         playerBackgroundBinding.videoTransitionProgress.isVisible = !show
     }
 
-    private fun connectToPlayerView() {
+    private fun connectToPlayerView(player: Player) {
         // initialize the player view actions
         binding.player.initialize(
             chaptersViewModel,
             commonPlayerViewModel,
             viewModel,
             viewLifecycleOwner,
-            this
+            this,
+            player
         )
     }
 
@@ -1125,10 +1128,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
 
         setPlayerDefaults()
 
-        binding.player.apply {
-            useController = false
-            player = playerController
-        }
+        binding.player.useController = false
 
         if (binding.playerMotionLayout.progress != 1.0f) {
             // show controllers when not in picture in picture mode
@@ -1415,7 +1415,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player), CustomPlayerCallback 
             viewModel.isOrientationChangeInProgress = true
 
             // detach player view from player to stop surface rendering
-            binding.player.player = null
+            binding.player.detachPlayer()
 
             if (::playerController.isInitialized) playerController.release()
 
