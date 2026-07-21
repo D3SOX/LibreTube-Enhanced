@@ -534,7 +534,7 @@
     <string name="playback_pitch_semitone_error_input">La valeur doit être comprise entre -%1$.1f (minimum) et %1$.1f (maximum)</string>
     <string name="gaming">Jeux Vidéo</string>
     <string name="podcasts">Podcasts</string>
-    <string name="trailers">Trailers</string>
+    <string name="trailers">Bandes-annonces</string>
     <string name="music">Musique</string>
     <string name="createNewPlaylist">Créer une nouvelle playlist</string>
     <string name="include_timestamp_in_filename">Inclure l\'horodatage dans le nom de fichier</string>
@@ -572,4 +572,6 @@
     <string name="long_press_fast_forward">Avance rapide en appuyant longuement</string>
     <string name="long_press_fast_forward_summary">Lisez la vidéo en vitesse double en appuyant longuement sur l\'écran.</string>
     <string name="resume_all">Reprendre les téléchargements</string>
+    <string name="comment_verified">Vérifié</string>
+    <string name="comment_pinned">Épinglé</string>
 </resources>

@@ -608,4 +608,6 @@
     <string name="speed_buttons">Speed buttons</string>
     <string name="speed_buttons_summary">Show playback speed buttons in player controls</string>
     <string name="speed">Speed</string>
+    <string name="comment_verified">Verified</string>
+    <string name="comment_pinned">Pinned</string>
 </resources>
