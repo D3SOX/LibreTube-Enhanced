@@ -38,6 +38,7 @@ import video_streaming.StreamerContextOuterClass.StreamerContext.SabrContext
 import video_streaming.UmpPartId.UMPPartId
 import video_streaming.VideoPlaybackAbrRequestOuterClass.VideoPlaybackAbrRequest
 import java.time.Instant
+import kotlin.math.max
 
 class PlaybackRequest(
     /* Format for which new media data is being requested */
@@ -211,6 +212,9 @@ class SabrClient private constructor(
         }
         .build()
 
+    /** Sequence number of the request. */
+    private var requestNumber = 1
+
     /**
      * PlaybackCookie
      *
@@ -358,9 +362,9 @@ class SabrClient private constructor(
         val now = Instant.now().toEpochMilli()
         val xtags = audioFormat?.formatId()?.xtags?.let { Xtags(it) }
 
+        val playerTimeMs = playbackRequest.segmentStartTimeMs
         val clientState = ClientAbrState.newBuilder()
-            // we pretend we're slightly in the previous (n-1) segment, so we get n-th segment, instead of the (n+1)-th one
-            .setPlayerTimeMs(playbackRequest.segmentStartTimeMs.minus(500).coerceAtLeast(0))
+            .setPlayerTimeMs(playerTimeMs)
             //TODO: setMediaCapabilities for Android client: https://github.com/coletdjnz/yt-dlp-dev/blob/effe62991b1b87aafcc8f77a374d7ead9d461803/yt_dlp/extractor/youtube/_streaming/sabr/processor.py#L239
             .setEnabledTrackTypesBitfield(if (videoFormat == null) 1 else 0)
             .setPlaybackRate(playbackRequest.playbackSpeed)
@@ -373,25 +377,31 @@ class SabrClient private constructor(
             .setEnableVoiceBoost(xtags?.isVoiceBoosted() ?: false)
             .setClientViewportIsFlexible(false)
             .setBandwidthEstimate(bandwidthEstimator.bitrateEstimate)
+            .setStickyResolution(max(videoFormat?.stream?.height ?: 0, 360))
+            .setClientViewportHeight(max(videoFormat?.stream?.height ?: 0, 360))
+            .setClientViewportWidth(max(videoFormat?.stream?.width ?: 0, 640))
+            .setLastManualSelectedResolution(max(videoFormat?.stream?.height ?: 0, 360))
             .setVisibility(1)
             .build()
 
         val playbackRequest = VideoPlaybackAbrRequest.newBuilder().setClientAbrState(clientState)
-            .addAllSelectedFormatIds(initializedFormats.values.map { it.id }.toList())
+            .setPlayerTimeMs(playerTimeMs)
             .setVideoPlaybackUstreamerConfig(ustreamerConfig)
             .addAllPreferredAudioFormatIds(listOfNotNull(audioFormat?.formatId()))
             .addAllPreferredVideoFormatIds(listOfNotNull(videoFormat?.formatId()))
-            .addAllSelectedFormatIds(initializedFormats.map { it.value.id }.toList())
+            .addAllSelectedFormatIds(initializedFormats.values.map { it.id }.toList())
             .addAllBufferedRanges(initializedFormats.values.flatMap { it.buildBufferedRanges() })
             .setStreamerContext(
                 StreamerContext.newBuilder()
                     .setPoToken(poToken ?: ByteString.empty())
                     .setClientInfo(
                         StreamerContext.ClientInfo.newBuilder()
-                            .setClientName(1)
-                            .setClientVersion(YoutubeParsingHelper.getClientVersion())
-                            .setOsName("Windows")
-                            .setOsVersion("10")
+                            .setClientName(101)
+                            .setClientVersion("1.02")
+                            .setDeviceMake("Apple")
+                            .setDeviceModel("RealityDevice14,1")
+                            .setOsName("visionOS")
+                            .setOsVersion("25.6.0.23O471")
                             .build()
                     )
                     .addAllSabrContexts(activeSabrContexts.mapNotNull { sabrContexts[it] })
@@ -404,7 +414,7 @@ class SabrClient private constructor(
 
         // ideally we would use HTTP3 here, like the official, however okhttp does not support it
         val request = Request.Builder()
-            .url(url)
+            .url("$url&rn=${requestNumber++}")
             .post(
                 playbackRequest.toByteArray()
                     .toRequestBody(CONTENT_TYPE.toMediaType())
@@ -618,7 +628,6 @@ class SabrClient private constructor(
         private const val CONTENT_TYPE = "application/x-protobuf"
         private const val ENCODING = "identity"
         private const val ACCEPT = "application/vnd.yt-ump"
-        private const val USER_AGENT =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0"
+        private const val USER_AGENT = "com.google.visionos.youtube/1.02(RealityDevice14,1; U; CPU visionOS 25_6_0 like Mac OS X; GB)";
     }
 }
