@@ -538,4 +538,38 @@
     <string name="pip">PiP</string>
     <string name="crashlog">Registre d\'errors</string>
     <string name="local_feed_extraction">Extracció local del feed</string>
+    <string name="show_updates_summary">Comprova si hi ha actualitzacions automàticament cada vegada que s\'inicia l\'aplicació.</string>
+    <string name="checking_frequency_15_minutes">15 minuts</string>
+    <string name="checking_frequency_30_minutes">30 minuts</string>
+    <string name="checking_frequency_60_minutes">60 minuts</string>
+    <string name="checking_frequency_2_hours">2 hores</string>
+    <string name="checking_frequency_6_hours">6 hores</string>
+    <string name="checking_frequency_12_hours">12 hores</string>
+    <string name="checking_frequency_1_day">1 dia</string>
+    <string name="sort_channel">Nom del canal</string>
+    <string name="sort_size">Mida</string>
+    <string name="backup_creation_success">La còpia de seguretat s\'ha completat correctament</string>
+    <string name="backup_creation_failed">No s\'ha pogut crear la còpia de seguretat</string>
+    <string name="courses">Cursos</string>
+    <string name="ungrouped_channels">Desagrupat</string>
+    <string name="ungrouped_channels_with_count">Desagrupat (%1$d)</string>
+    <string name="screenshot_saved">S\'ha desat la captura</string>
+    <plurals name="sleep_timer_chip_minutes">
+        <item quantity="other">%d min</item>
+    </plurals>
+    <string name="did_you_mean">Volíeu dir:</string>
+    <string name="resume_all">Reprèn les baixades</string>
+    <string name="comment_verified">Verificat</string>
+    <string name="comment_pinned">Fixat</string>
+    <string name="category_hook">Ganxo o salutacions</string>
+    <string name="category_hook_summary">Per a ganxos narratius que atrapen l\'atenció de l\'espectador (sovint com la primera escena) burlant-se o descrivint esdeveniments posteriors en el mateix vídeo o futurs episodis d\'una sèrie</string>
+    <string name="unsubscribe_snackbar_message">S\'ha cancel·lat amb èxit la subscripció de %1$s</string>
+    <string name="delete_playlist_include_vidoes">Voleu suprimir també tots els vídeos de la llista de reproducció?</string>
+    <plurals name="minutes_left">
+        <item quantity="one">%d min romanent</item>
+        <item quantity="other">%d min romanents</item>
+    </plurals>
+    <string name="showing_results_for">Es mostren els resultats de:</string>
+    <string name="long_press_fast_forward">Avança ràpidament en prémer llarg</string>
+    <string name="long_press_fast_forward_summary">Reprodueix vídeo a doble velocitat mentre toqueu i manteniu premuda la pantalla.</string>
 </resources>
