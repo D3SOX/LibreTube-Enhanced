@@ -1,5 +1,8 @@
 # About this fork
 
+> [!NOTE]
+> I'm currently focused on porting [OpenTubeX](https://github.com/OpenTubeX/OpenTubeX) to mobile. This fork is kept up to date with upstream LibreTube, but it isn't receiving new features for now.
+
 This is a fork of LibreTube in its early stages. Therefore only builds via [GitHub Actions](https://github.com/D3SOX/LibreTube-Enhanced/actions/workflows/ci.yml) are available. If you don't have a GitHub account you can download them via [nightly.link](https://nightly.link/D3SOX/LibreTube-Enhanced/workflows/ci/master)
 
 It currently supports the following extra features:
