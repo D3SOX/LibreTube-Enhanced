@@ -27,6 +27,9 @@ if (keystoreFileExists) {
     keystoreProperties.load(rootProject.file("keystore.properties").inputStream())
 }
 
+val nightlyVersionCode = providers.gradleProperty("nightlyVersionCode").orNull?.toIntOrNull()
+val nightlyVersionName = providers.gradleProperty("nightlyVersionName").orNull
+
 android {
     compileSdk = 36
 
@@ -34,8 +37,8 @@ android {
         applicationId = "com.github.libretube"
         minSdk = 26
         targetSdk = 36
-        versionCode = 72
-        versionName = "32.1"
+        versionCode = nightlyVersionCode ?: 72
+        versionName = nightlyVersionName ?: "32.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resValue("string", "app_name", "LibreTube")
     }
