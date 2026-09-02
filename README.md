@@ -7,6 +7,9 @@ This is a fork of LibreTube in its early stages. Installable builds are publishe
 
 Nightly builds use the `com.github.libretube.debug` package, so they can be installed alongside the regular LibreTube app.
 
+> [!IMPORTANT]
+> Builds downloaded from GitHub Actions before September 2, 2026 used temporary signing keys. Export your app data, uninstall the old debug build, and install a nightly release once. Later nightly releases can update normally through Obtainium.
+
 It currently supports the following extra features:
 
 - Remember playback speed on a per-channel basis
