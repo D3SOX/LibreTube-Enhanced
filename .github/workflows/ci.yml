@@ -68,7 +68,7 @@ jobs:
       contents: write
     steps:
       - name: Download APK
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: unsigned-debug-apk
           path: unsigned
@@ -87,7 +87,7 @@ jobs:
         run: mv "${{ steps.sign_apk.outputs.signedFile }}" LibreTube-Enhanced-nightly.apk
 
       - name: Create nightly release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.debug-builds.outputs.nightly_tag }}
           target_commitish: ${{ github.sha }}
