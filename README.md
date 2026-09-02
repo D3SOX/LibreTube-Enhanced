@@ -3,12 +3,14 @@
 > [!NOTE]
 > I'm currently focused on porting [OpenTubeX](https://github.com/OpenTubeX/OpenTubeX) to mobile. This fork is kept up to date with upstream LibreTube, but it isn't receiving new features for now.
 
-This is a fork of LibreTube in its early stages. Installable builds are published as [GitHub nightly releases](https://github.com/OpenTubeX/LibreTube-Enhanced/releases). To receive updates through Obtainium, add `https://github.com/OpenTubeX/LibreTube-Enhanced` and enable **Include prereleases** for the app.
+This is a fork of LibreTube in its early stages. Installable builds are published as [GitHub nightly releases](https://github.com/OpenTubeX/LibreTube-Enhanced/releases). Use [Add to Obtainium][obtainium-link] to import the repository with prereleases enabled.
 
 Nightly builds use the `com.github.libretube.debug` package, so they can be installed alongside the regular LibreTube app.
 
 > [!IMPORTANT]
 > Builds downloaded from GitHub Actions before September 2, 2026 used temporary signing keys. Export your app data, uninstall the old debug build, and install a nightly release once. Later nightly releases can update normally through Obtainium.
+
+[obtainium-link]: <https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.github.libretube.debug%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FOpenTubeX%2FLibreTube-Enhanced%22%2C%22author%22%3A%22OpenTubeX%22%2C%22name%22%3A%22LibreTube%20Enhanced%20Nightly%22%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Atrue%7D%22%7D>
 
 It currently supports the following extra features:
 
