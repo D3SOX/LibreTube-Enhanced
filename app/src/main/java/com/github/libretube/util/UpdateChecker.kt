@@ -21,8 +21,7 @@ class UpdateChecker(private val context: Context) {
         val currentAppVersion = BuildConfig.VERSION_NAME.filter { it.isDigit() }.toInt()
 
         try {
-            val response = RetrofitInstance.externalApi.getLatestRelease()
-            // version would be in the format "0.21.1"
+            val response = RetrofitInstance.externalApi.getReleases().first()
             val update = response.name.filter { it.isDigit() }.toInt()
 
             if (currentAppVersion != update) {

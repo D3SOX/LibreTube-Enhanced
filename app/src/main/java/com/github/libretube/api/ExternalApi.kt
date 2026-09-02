@@ -17,7 +17,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.Url
 
-private const val GITHUB_API_URL = "https://api.github.com/repos/libre-tube/LibreTube/releases/latest"
+private const val GITHUB_RELEASES_API_URL = "https://api.github.com/repos/OpenTubeX/LibreTube-Enhanced/releases?per_page=1"
 private const val SB_API_URL = "https://sponsor.ajay.app"
 private const val RYD_API_URL = "https://ryd-proxy.kavin.rocks"
 private const val GOOGLE_API_KEY = "AIzaSyDyT5W0Jh49F30Pqqtyfdf7pDLFKLJoAnw"
@@ -28,8 +28,8 @@ interface ExternalApi {
     suspend fun getInstanceConfig(@Url url: String): PipedConfig
 
     // fetch latest version info
-    @GET(GITHUB_API_URL)
-    suspend fun getLatestRelease(): UpdateInfo
+    @GET(GITHUB_RELEASES_API_URL)
+    suspend fun getReleases(): List<UpdateInfo>
 
     @GET("$RYD_API_URL/votes")
     suspend fun getVotes(@Query("videoId") videoId: String): VoteInfo
