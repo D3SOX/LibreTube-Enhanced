@@ -249,12 +249,6 @@ object PlayerHelper {
             return code
         }
 
-    val skipButtonsEnabled: Boolean
-        get() = PreferenceHelper.getBoolean(
-            PreferenceKeys.SKIP_BUTTONS,
-            false
-        )
-
     var autoPlayEnabled: Boolean
         get() = PreferenceHelper.getBoolean(
             PreferenceKeys.AUTOPLAY,
@@ -368,12 +362,6 @@ object PlayerHelper {
         PreferenceHelper.remove(channelSpeedKey)
     }
 
-    val autoInsertRelatedVideos: Boolean
-        get() = PreferenceHelper.getBoolean(
-            PreferenceKeys.QUEUE_AUTO_INSERT_RELATED,
-            true
-        )
-
     val swipeGestureEnabled: Boolean
         get() = PreferenceHelper.getBoolean(
             PreferenceKeys.PLAYER_SWIPE_CONTROLS,
@@ -463,11 +451,6 @@ object PlayerHelper {
         set(value) {
             PreferenceHelper.putInt(PreferenceKeys.REPEAT_MODE, value)
         }
-
-    fun isAutoPlayEnabled(isPlaylist: Boolean = false): Boolean {
-        return autoPlayEnabled || (isPlaylist && PreferenceHelper
-            .getBoolean(PreferenceKeys.AUTOPLAY_PLAYLISTS, false))
-    }
 
     fun getDefaultResolution(context: Context, isFullscreen: Boolean): Int? {
         var prefKey = if (NetworkHelper.isNetworkMetered(context)) {

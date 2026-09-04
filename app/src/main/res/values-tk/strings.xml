@@ -78,7 +78,6 @@
     <string name="fullscreen_orientation">Doly ekran ugry</string>
     <string name="aspect_ratio">Wideonyň öleçeglerine görä</string>
     <string name="importsuccess">Abuna ýazyldyňyz</string>
-    <string name="downloadfailed">Ýükleme şowsuz boldy.</string>
     <string name="import_from_yt">Abuna ýazylyşlary getir</string>
     <string name="import_from_yt_summary">YouTube ýa-da NewPipe-dan</string>
     <string name="app_theme">Tema</string>
@@ -169,16 +168,12 @@
     <string name="required_network">Gerekli birikme</string>
     <string name="network_all">Ählisi</string>
     <string name="network_wifi">Diňe Wi-Fi-da</string>
-    <string name="skip_buttons_summary">Indiki ýa-da öňki wideo geçmek üçin düwmeleri görkez</string>
     <string name="add_to_queue">Nobata goşuň</string>
     <string name="open_copied">Aç</string>
     <string name="notify_new_streams">Täze wideolar üçin bildirişler</string>
     <string name="most_views">Iň köp görülen</string>
     <string name="least_views">Iň az görülen</string>
     <string name="share_with_time">Başlangyç wagty bilen paýlaşyň</string>
-    <string name="skip_buttons">Geçirme düwmesi</string>
-    <string name="history_size">Bellikleriň maksimum ululygy</string>
-    <string name="unlimited">Çäklendirilmedik</string>
     <string name="background_mode">Fon tertibi</string>
     <string name="misc">Dürli</string>
     <string name="take_a_break">Arakesme wagty</string>
@@ -190,7 +185,6 @@
     <string name="copied_to_clipboard">Panele göçürildi</string>
     <string name="playerAudioQuality">Sesiň hili</string>
     <string name="repeat_mode_none">Hiç hili</string>
-    <string name="no_subtitles_available">Subtitrler ýok</string>
     <string name="repeat_mode_current">Häzirki</string>
     <string name="watch_positions_title">Wideoda galan ýeriňizi bellikde saklaň</string>
     <string name="system_caption_style">Ulgam subtitr stili</string>
